@@ -1,0 +1,14 @@
+{
+  "base_file_name": "./output/keypair.txt",
+  "asset_id_file_name": "./output/snip.txt",
+  "private_file_name": "./output/key.txt",
+  "public_file_name": "./output/labels.txt",
+  "sequence_file_name": "./output/numbers.txt",
+  "recovered_file_name": "./output/recovered.txt",
+  "recovered_keys_file_name": "./output/recovered-keys.txt",
+  "lasers": [
+    "A",
+    "B",
+    "C"
+  ]
+}
