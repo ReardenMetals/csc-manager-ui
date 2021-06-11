@@ -1,0 +1,6 @@
+/venv/
+/.idea/
+/output/
+/package/
+/run.sh
+/config.json
