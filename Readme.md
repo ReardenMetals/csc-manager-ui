@@ -18,6 +18,10 @@ Install Keygen-Core: https://github.com/ReardenMetals/keygen-core
 
 Create csc-manager folder. All installations do in this folder:
 
+Install Visual C++ Redistributable Packages for Visual Studio 2013 (vcredist_x64.exe):
+https://www.microsoft.com/en-us/download/details.aspx?id=40784
+Or download vcredist_x64.exe file from https://github.com/ReardenMetals/csc-manager-ui/releases/
+
 Download archive with the latest release of "Source Code (zip)" for Windows based system
 https://github.com/ReardenMetals/csc-manager-ui/releases/
 
@@ -26,7 +30,7 @@ Select needed release and download & unarchive "ui-dependencies-win.zip"
 Download archive with the latest release of "Source Code (zip)" for Windows based system or "Source Code (tar.gz)" for Unix based system
 https://github.com/ReardenMetals/csc-manager-ui/releases/
 
-Finaly, csc-manager folder should contains three sub-folders: 
+Finally, csc-manager folder should contains three sub-folders: 
 
 - keygen-core
 - ui-dependencies-win
