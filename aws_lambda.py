@@ -1,5 +1,6 @@
 import json
-from keygen.crypto_coin_factory import CoinFactory
+
+from coin_factory_inject import coinFactory
 
 
 def lambda_handler(event, context):
@@ -8,7 +9,7 @@ def lambda_handler(event, context):
     quantity = requestBody["quantity"]
 
     coin = blockchain.upper()
-    factory = CoinFactory()
+    factory = coinFactory
     crypto_keygen_service = factory.get_coin_service(coin)
 
     coins = crypto_keygen_service.generate_list(quantity)

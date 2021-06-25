@@ -1,9 +1,9 @@
-from keygen.crypto_coin_factory import CoinFactory
+from coin_factory_inject import coinFactory
 
 
 def test_coin():
     currency = "ETH"
-    service = CoinFactory.get_coin_service(currency)
+    service = coinFactory.get_coin_service(currency)
     coin = service.generate()
     print(currency)
     print(coin)

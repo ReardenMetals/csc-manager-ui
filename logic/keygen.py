@@ -1,7 +1,4 @@
-
-
-from keygen.currencies.bch_crypto_coin_service import BchCoinService
-from keygen.crypto_coin_factory import CoinFactory
+from coin_factory_inject import coinFactory
 import json
 
 
@@ -17,7 +14,7 @@ def generate_keys(count, coin, laser):
     max_iterator_count = int(count)
 
     try:
-        factory = CoinFactory()
+        factory = coinFactory
         crypto_keygen_service = factory.get_coin_service(coin)
 
         if max_iterator_count > 0:

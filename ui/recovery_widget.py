@@ -1,7 +1,7 @@
 import tkinter
 
+from coin_factory_inject import coinFactory
 from controller.recovery_controller import RecoveryController
-from keygen.crypto_coin_factory import CoinFactory
 from ui.recovery.header_widget import HeaderWidget
 from ui.recovery.footer_widget import FooterWidget
 
@@ -13,7 +13,7 @@ class RecoveryWidget:
         self.recovery_frame = recovery_frame
         top_frame = tkinter.Frame(self.recovery_frame, borderwidth=3)
 
-        currencies = CoinFactory.get_available_currencies()
+        currencies = coinFactory.get_available_currencies()
         self.currencies = currencies
 
         self.recovery_controller = RecoveryController(self, recovery_frame)

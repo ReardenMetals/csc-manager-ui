@@ -1,7 +1,7 @@
 import tkinter
 
+from coin_factory_inject import coinFactory
 from controller.coin_checker_controller import CoinCheckerController
-from keygen.crypto_coin_factory import CoinFactory
 from ui.footer_widget import FooterWidget
 from ui.header_widget import HeaderWidget
 
@@ -12,7 +12,7 @@ class CoinCheckerWidget:
 
         top_frame = tkinter.Frame(self.coin_checker_frame, borderwidth=3)
 
-        currencies = CoinFactory.get_available_currencies()
+        currencies = coinFactory.get_available_currencies()
         self.currencies = currencies
 
         self.coin_checker_controller = CoinCheckerController(self, coin_checker_frame)

@@ -2,8 +2,8 @@ import tkinter
 from tkinter import ttk, messagebox
 from tkinter.ttk import Progressbar
 
+from coin_factory_inject import coinFactory
 from controller.keygen_controller import KeygenController
-from keygen.crypto_coin_factory import CoinFactory
 
 import json
 
@@ -19,7 +19,7 @@ class KeygenWidget:
 
     def __init__(self, root):
         self.root = root
-        self.currencies = CoinFactory.get_available_currencies()
+        self.currencies = coinFactory.get_available_currencies()
 
         combo_frame = tkinter.Frame(root, pady=15)
         tkinter.Label(combo_frame, text="Select currency").pack()

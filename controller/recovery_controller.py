@@ -1,8 +1,8 @@
-from keygen.crypto_coin_factory import CoinFactory
 
 import asynctkinter as at
 import pygame
 
+from coin_factory_inject import coinFactory
 from logic.recovery import save_recovered_coins
 from scan_states.recovery.context import Context
 from scan_states.recovery.state_factory import get_state
@@ -29,7 +29,7 @@ class RecoveryController(Context):
         self.coins = []
 
     def init(self):
-        currencies = CoinFactory.get_available_currencies()
+        currencies = coinFactory.get_available_currencies()
         self.currency = currencies[0]
 
         self.select_currency(self.currency)
@@ -50,7 +50,7 @@ class RecoveryController(Context):
 
     def select_currency(self, currency):
         self.currency = currency
-        self.coin_service = CoinFactory.get_coin_service(self.currency)
+        self.coin_service = coinFactory.get_coin_service(self.currency)
         self.change_state(States.SCAN_COIN_STATE)
         self.root.set_currency(currency)
         print("Selected currency: ", self.currency)
