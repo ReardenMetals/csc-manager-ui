@@ -1,13 +1,17 @@
-from coin_factory_inject import coinFactory
 import json
 
 import logging
 
+from dependency_injector.wiring import Provide
+
+from keygen.crypto_coin_factory import CoinFactory
+
 
 class KeygenProcessor:
 
-    def __init__(self):
+    def __init__(self, coin_factory: CoinFactory = Provide['coin_factory']):
         super().__init__()
+        self.coin_factory = coin_factory
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
 
     def generate_keys(self, count, coin, laser):
@@ -22,8 +26,7 @@ class KeygenProcessor:
         max_iterator_count = int(count)
 
         try:
-            factory = coinFactory
-            crypto_keygen_service = factory.get_coin_service(coin)
+            crypto_keygen_service = self.coin_factory.get_coin_service(coin)
 
             if max_iterator_count > 0:
                 coin_list = crypto_keygen_service.generate_list(max_iterator_count)

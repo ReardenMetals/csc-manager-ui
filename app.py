@@ -1,5 +1,4 @@
-
-from app_tools.logger import StdoutRedirector, stdout_redirector
+from app_tools.logger import stdout_redirector
 from scan_states.context import Context
 from ui.main_widget import MainWidget
 

@@ -1,7 +1,9 @@
 import tkinter
 
-from coin_factory_inject import coinFactory
+from dependency_injector.wiring import Provide
+
 from controller.recovery_controller import RecoveryController
+from keygen.crypto_coin_factory import CoinFactory
 from ui.recovery.header_widget import HeaderWidget
 from ui.recovery.footer_widget import FooterWidget
 import logging
@@ -10,13 +12,14 @@ from tkinter import messagebox
 
 
 class RecoveryWidget:
-    def __init__(self, recovery_frame):
+    def __init__(self, recovery_frame,
+                 coin_factory: CoinFactory = Provide['coin_factory']):
         self.recovery_frame = recovery_frame
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
 
         top_frame = tkinter.Frame(self.recovery_frame, borderwidth=3)
 
-        currencies = coinFactory.get_available_currencies()
+        currencies = coin_factory.get_available_currencies()
         self.currencies = currencies
 
         self.recovery_controller = RecoveryController(self, recovery_frame)
