@@ -12,6 +12,9 @@ class StdoutRedirector(object):
         if self.listener is not None:
             self.listener.log(log)
 
+    def flush(self) -> None:
+        sys.__stdout__.flush()
+
     def set_listener(self, listener=None):
         self.listener = listener
 

@@ -1,12 +1,13 @@
 import cv2
 from pyzbar import pyzbar
-import logging
+
+from app_tools.qr.qr_code_scaner import QrCodeScanner
 
 
-class QrCodeScanner:
+class ZbarQrCodeScanner(QrCodeScanner):
 
     def __init__(self):
-        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+        super().__init__()
         self.barcode_info = None
         self.barcode_increment = 0  # Timestamp at the moment of the last barcode info callback
         self.increment = 0  # Current timestamp

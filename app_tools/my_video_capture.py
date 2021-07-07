@@ -29,10 +29,10 @@ class MyVideoCapture:
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 self.logger.error("Ret not found")
-                return (ret, None)
+                return ret, None
         else:
             self.logger.error("get_frame Not opened")
-            return (None)
+            return None
 
     # Release the video source when the object is destroyed
     def __del__(self):

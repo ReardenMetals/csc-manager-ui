@@ -4,19 +4,20 @@ import PIL.ImageTk
 from dependency_injector.wiring import Provide
 
 from app_tools.my_video_capture import MyVideoCapture
-from app_tools.qr_code_scaner import QrCodeScanner
+from app_tools.qr.qr_code_scaner import QrCodeScanner
 import tkinter
 import imutils
 
 
 class CameraWidget:
     def __init__(self, camera_frame, width, height, on_qr_scanned_callback=None, paused=False,
-                 video_capture: MyVideoCapture = Provide['default_video_capture']
+                 video_capture: MyVideoCapture = Provide['default_video_capture'],
+                 qr_code_scanner: QrCodeScanner = Provide['qr_code_scanner']
                  ):
 
         self.video_capture = video_capture
         self.camera_frame = camera_frame
-        self.qr_code_scanner = QrCodeScanner()
+        self.qr_code_scanner = qr_code_scanner
         self.width = width
         self.height = height
         self.on_qr_scanned_callback = on_qr_scanned_callback
