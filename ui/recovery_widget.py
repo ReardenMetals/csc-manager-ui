@@ -4,6 +4,7 @@ from coin_factory_inject import coinFactory
 from controller.recovery_controller import RecoveryController
 from ui.recovery.header_widget import HeaderWidget
 from ui.recovery.footer_widget import FooterWidget
+import logging
 
 from tkinter import messagebox
 
@@ -11,6 +12,8 @@ from tkinter import messagebox
 class RecoveryWidget:
     def __init__(self, recovery_frame):
         self.recovery_frame = recovery_frame
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+
         top_frame = tkinter.Frame(self.recovery_frame, borderwidth=3)
 
         currencies = coinFactory.get_available_currencies()
@@ -60,11 +63,11 @@ class RecoveryWidget:
         self.footer_widget.show_coin_details_info(private_key, snip, address)
 
     def init_camera(self):
-        print("init recovery camera")
+        self.logger.info("init recovery camera")
         self.footer_widget.camera_widget.resume()
 
     def release_camera(self):
-        print("release recovery camera")
+        self.logger.info("release recovery camera")
         self.footer_widget.camera_widget.pause()
 
     @staticmethod

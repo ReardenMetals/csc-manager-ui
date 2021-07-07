@@ -4,6 +4,8 @@ import logging.config
 
 from dependency_injector import containers, providers
 
+from app_tools.my_video_capture import MyVideoCapture
+
 
 class MyContainer(containers.DeclarativeContainer):
 
@@ -13,5 +15,7 @@ class MyContainer(containers.DeclarativeContainer):
         logging.config.fileConfig,
         fname='logging.ini',
     )
+
+    default_video_capture = providers.Singleton(MyVideoCapture)
 
 

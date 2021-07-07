@@ -1,15 +1,20 @@
 
 import PIL.Image
 import PIL.ImageTk
+from dependency_injector.wiring import Provide
 
+from app_tools.my_video_capture import MyVideoCapture
 from app_tools.qr_code_scaner import QrCodeScanner
-from app_tools.my_video_capture import MyVideoCapture, DEFAULT_VIDEO_CAPTURE
 import tkinter
 import imutils
 
 
 class CameraWidget:
-    def __init__(self, camera_frame, width, height, on_qr_scanned_callback=None, paused=False):
+    def __init__(self, camera_frame, width, height, on_qr_scanned_callback=None, paused=False,
+                 video_capture: MyVideoCapture = Provide['default_video_capture']
+                 ):
+
+        self.video_capture = video_capture
         self.camera_frame = camera_frame
         self.qr_code_scanner = QrCodeScanner()
         self.width = width
@@ -22,7 +27,7 @@ class CameraWidget:
         self.canvas = tkinter.Canvas(self.camera_frame, width=self.width, height=self.height)
         self.canvas.pack()
 
-        self.vid = DEFAULT_VIDEO_CAPTURE
+        self.vid = self.video_capture
         self.delay = 40
 
         self.camera_frame.after(1000, self.update_barcode_frame)
@@ -47,12 +52,12 @@ class CameraWidget:
             self.camera_frame.after(self.delay * 100, self.update_barcode_frame)
 
     def pause(self):
-        DEFAULT_VIDEO_CAPTURE.release_camera()
+        self.video_capture.release_camera()
         self.paused = True
 
     def resume(self):
         if self.paused:
-            DEFAULT_VIDEO_CAPTURE.init()
+            self.video_capture.init()
             self.paused = False
             if self.camera_frame is not None:
                 self.camera_frame.after(100, self.update_barcode_frame)

@@ -7,6 +7,7 @@ import pygame
 
 from app_tools.logger import stdout_redirector
 from di.containers import MyContainer
+import ui
 
 
 def main():
@@ -21,5 +22,5 @@ if __name__ == '__main__':
     container = MyContainer()
     container.init_resources()
     container.config.from_ini('config.ini')
-    container.wire(modules=[sys.modules[__name__]])
+    container.wire(modules=[sys.modules[__name__]], packages=[ui])
     main()
