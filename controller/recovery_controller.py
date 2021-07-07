@@ -3,7 +3,7 @@ import asynctkinter as at
 import pygame
 
 from coin_factory_inject import coinFactory
-from logic.recovery import save_recovered_coins
+from logic.recovery import RecoveryProcessor
 from scan_states.recovery.context import Context
 from scan_states.recovery.state_factory import get_state
 from scan_states.recovery.states_enum import States
@@ -14,6 +14,7 @@ class RecoveryController(Context):
     def __init__(self, root, window):
         super().__init__()
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+        self.recovery_processor = RecoveryProcessor()
 
         self.root = root
         self.window = window
@@ -132,7 +133,7 @@ class RecoveryController(Context):
     async def save_async(self):
         if len(self.coins) > 0:
             self.logger.info("Saving %s of coins", len(self.coins))
-            await self.run_in_thread(lambda: save_recovered_coins(self.coins))
+            await self.run_in_thread(lambda: self.recovery_processor.save_recovered_coins(self.coins))
             self.logger.debug("self.root.show_success()")
             self.root.show_success()
         else:

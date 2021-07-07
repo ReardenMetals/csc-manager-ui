@@ -1,9 +1,10 @@
-from logic.update import update
+from logic.update import UpdateProcessor
 
 
 def main():
+    update_processor = UpdateProcessor()
     good_coin = input("Enter the last good coin id : ")
-    update(good_coin)
+    update_processor.update(good_coin)
 
 
 if __name__ == "__main__":

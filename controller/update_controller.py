@@ -1,12 +1,14 @@
 import asynctkinter as at
 
-from logic.update import update
 import logging
+
+from logic.update import UpdateProcessor
 
 
 class UpdateController:
     def __init__(self, root, window):
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+        self.update_processor = UpdateProcessor()
         self.root = root
         self.window = window
 
@@ -14,7 +16,7 @@ class UpdateController:
         self.start_async(self.update_async(last_good_coin))
 
     async def update_async(self, last_good_coin):
-        await self.run_in_thread(lambda: update(last_good_coin))
+        await self.run_in_thread(lambda: self.update_processor.update(last_good_coin))
         self.logger.debug("self.root.show_success()")
         self.root.show_success()
 

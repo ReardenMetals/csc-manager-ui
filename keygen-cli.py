@@ -1,4 +1,6 @@
-from logic.keygen import generate_keys
+from logic.keygen import KeygenProcessor
+
+keygen = KeygenProcessor()
 
 
 def default_input(message, defaultVal):
@@ -12,7 +14,7 @@ def init():
     max_iterator_count = int(default_input("How many codes you want? ", "10"))
     coin = default_input("What crypto you making (BTC, ETH, ...)? ", "BTC").upper()
     laser_type = default_input("What laser is this (A, B, C)? ", "A").upper()
-    generate_keys(count=max_iterator_count, coin=coin, laser=laser_type)
+    keygen.generate_keys(count=max_iterator_count, coin=coin, laser=laser_type)
 
 
 if __name__ == "__main__":
