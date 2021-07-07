@@ -1,10 +1,12 @@
 import asynctkinter as at
 
 from logic.keygen import generate_keys
+import logging
 
 
 class KeygenController:
     def __init__(self, root, window):
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.root = root
         self.window = window
 
@@ -13,7 +15,7 @@ class KeygenController:
 
     async def generate_keys_async(self, count, coin, laser):
         await self.run_in_thread(lambda: generate_keys(count, coin, laser))
-        print("self.root.show_success()")
+        self.logger.debug("self.root.show_success()")
         self.window.after(10, lambda: self.root.show_success())
 
     def start_async(self, task):

@@ -3,10 +3,12 @@ from tkinter import messagebox
 from tkinter.ttk import Progressbar
 
 from controller.update_controller import UpdateController
+import logging
 
 
 class UpdateWidget:
     def __init__(self, root):
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         last_coin_frame = tkinter.Frame(root, pady=15)
         tkinter.Label(last_coin_frame, text="Enter the last good coin id").pack()
         self.last_coin_entry = tkinter.Entry(last_coin_frame)
@@ -29,7 +31,7 @@ class UpdateWidget:
 
     def on_update_clicked(self):
         last_good_coin = self.last_coin_entry.get()
-        print("Update clicked: " + last_good_coin)
+        self.logger.info("Update clicked: " + last_good_coin)
         self.progress['value'] = 100
         self.update_controller.update(last_good_coin)
 

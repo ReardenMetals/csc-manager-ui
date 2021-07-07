@@ -1,10 +1,12 @@
 import cv2
 from pyzbar import pyzbar
+import logging
 
 
 class QrCodeScanner:
 
     def __init__(self):
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.barcode_info = None
         self.barcode_increment = 0  # Timestamp at the moment of the last barcode info callback
         self.increment = 0  # Current timestamp
@@ -12,9 +14,12 @@ class QrCodeScanner:
     def read_barcodes(self, frame, callback=None):
         if frame is None:
             return frame
+        self.logger.debug("Decoding QR Code")
         barcodes = pyzbar.decode(frame)
+
         if len(barcodes) == 0:
             return frame
+        self.logger.debug("QR Code decoded")
         barcode = barcodes[0]
 
         x, y, w, h = barcode.rect
@@ -29,6 +34,7 @@ class QrCodeScanner:
         if callback is not None:
             self.increment += 1
             if (self.barcode_info != barcode_info) or (self.increment - self.barcode_increment > 5):
+                self.logger.info("QR Code fetched: %s", barcode_info)
                 self.barcode_info = barcode_info
                 self.barcode_increment = self.increment
                 callback(barcode_info)

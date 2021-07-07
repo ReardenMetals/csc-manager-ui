@@ -6,6 +6,7 @@ from coin_factory_inject import coinFactory
 from controller.keygen_controller import KeygenController
 
 import json
+import logging
 
 
 def load_lasers():
@@ -18,6 +19,7 @@ def load_lasers():
 class KeygenWidget:
 
     def __init__(self, root):
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.root = root
         self.currencies = coinFactory.get_available_currencies()
 
@@ -66,10 +68,10 @@ class KeygenWidget:
         crypto_chosen = self.crypto_chosen.get()
         chosen_laser = self.laser_chosen.get()
         count = self.count_spin.get()
-        print("Generate...")
-        print("Crypto chosen: " + crypto_chosen)
-        print("Laser chosen: " + chosen_laser)
-        print("Count: " + count)
+        self.logger.info("Generate...")
+        self.logger.info("Crypto chosen: " + crypto_chosen)
+        self.logger.info("Laser chosen: " + chosen_laser)
+        self.logger.info("Count: " + count)
         self.progress['value'] = 100
         self.keygen_controller.generate_keys(count=count, coin=crypto_chosen, laser=chosen_laser)
 

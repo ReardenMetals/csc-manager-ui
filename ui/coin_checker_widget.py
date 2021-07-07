@@ -4,10 +4,13 @@ from coin_factory_inject import coinFactory
 from controller.coin_checker_controller import CoinCheckerController
 from ui.footer_widget import FooterWidget
 from ui.header_widget import HeaderWidget
+import logging
 
 
 class CoinCheckerWidget:
     def __init__(self, coin_checker_frame):
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+
         self.coin_checker_frame = coin_checker_frame
 
         top_frame = tkinter.Frame(self.coin_checker_frame, borderwidth=3)
@@ -57,11 +60,11 @@ class CoinCheckerWidget:
         self.footer_widget.show_coin_details_info(private_key, snip, address)
 
     def init_camera(self):
-        print("init coin_checker camera")
+        self.logger.info("init coin_checker camera")
         self.footer_widget.camera_widget.resume()
 
     def release_camera(self):
-        print("release coin_checker camera")
+        self.logger.info("release coin_checker camera")
         self.footer_widget.camera_widget.pause()
 
 

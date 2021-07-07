@@ -11,3 +11,10 @@ class StdoutRedirector(object):
             sys.__stdout__.write(log)
         if self.listener is not None:
             self.listener.log(log)
+
+    def set_listener(self, listener=None):
+        self.listener = listener
+
+
+stdout_redirector = StdoutRedirector()
+
