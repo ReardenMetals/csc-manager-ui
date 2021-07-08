@@ -64,9 +64,11 @@ class CoinCheckerWidget:
         self.footer_widget.show_coin_details_info(private_key, snip, address)
 
     def init_camera(self):
-        self.logger.info("init coin_checker camera")
-        self.footer_widget.camera_widget.resume()
+        self.logger.info("init coin_checker scanner")
+        self.coin_checker_controller.scanning_start()
+        self.footer_widget.resume_camera_widget()
 
     def release_camera(self):
-        self.logger.info("release coin_checker camera")
-        self.footer_widget.camera_widget.pause()
+        self.coin_checker_controller.scanning_stop()
+        self.logger.info("release coin_checker scanner")
+        self.footer_widget.pause_camera_widget()

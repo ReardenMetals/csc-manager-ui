@@ -67,11 +67,13 @@ class RecoveryWidget:
 
     def init_camera(self):
         self.logger.info("init recovery camera")
-        self.footer_widget.camera_widget.resume()
+        self.recovery_controller.scanning_start()
+        self.footer_widget.resume_camera_widget()
 
     def release_camera(self):
         self.logger.info("release recovery camera")
-        self.footer_widget.camera_widget.pause()
+        self.recovery_controller.scanning_stop()
+        self.footer_widget.pause_camera_widget()
 
     @staticmethod
     def show_success():

@@ -21,7 +21,7 @@ class HeaderWidget:
         combo_frame = tkinter.Frame(self.frame)
         tkinter.Label(combo_frame, text="Currency").pack()
         # Adding combobox drop down list
-        self.crypto_chosen = ttk.Combobox(combo_frame, width=27, values=self.currencies)
+        self.crypto_chosen = ttk.Combobox(combo_frame, state="readonly", width=27, values=self.currencies)
         self.crypto_chosen.bind("<<ComboboxSelected>>", self.on_currency_checkbox_selected)
         self.crypto_chosen.current(0)
         self.crypto_chosen.pack()

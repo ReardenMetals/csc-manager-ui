@@ -9,7 +9,6 @@ class MyVideoCapture:
         self.vid = None
         self.width = None
         self.height = None
-        self.init()
 
     def init(self):
         # Open the video source
@@ -26,7 +25,7 @@ class MyVideoCapture:
             ret, frame = self.vid.read()
             if ret:
                 # Return a boolean success flag and the current frame converted to BGR
-                return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                return ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             else:
                 self.logger.error("Ret not found")
                 return ret, None
@@ -42,5 +41,5 @@ class MyVideoCapture:
 
     def release_camera(self):
         self.logger.info("Camera capture released")
-        if self.vid.isOpened():
+        if (self.vid is not None) and (self.vid.isOpened()):
             self.vid.release()
