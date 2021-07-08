@@ -20,14 +20,14 @@ class ScanStickerState(ScanState):
                 self.sticker_processing = True
                 self.on_address_scanned(qr_code_text)
         else:
-            print("Sticker public key can be the same as private key")
+            self.logger.error("Sticker public key can be the same as private key")
 
     def on_address_scanned(self, address_text):
-        print("Fetched address: ", self.context.get_fetched_address())
-        print("Scanned address: ", address_text)
+        self.logger.info("Fetched address: %s", self.context.get_fetched_address())
+        self.logger.info("Scanned address: %s", address_text)
         if self.context.get_fetched_address() == address_text:
-            print("fetched_address == address_text")
+            self.logger.info("fetched_address == address_text")
             self.change_state(States.APPLY_STICKER_STATE)
         else:
-            print("fetched_address != address_text")
+            self.logger.info("fetched_address != address_text")
             self.change_state(States.MISMATCH_STATE)

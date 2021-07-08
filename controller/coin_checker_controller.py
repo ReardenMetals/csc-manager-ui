@@ -1,15 +1,19 @@
 import asynctkinter as at
 import pygame
+from dependency_injector.wiring import Provide
 
-from coin_factory_inject import coinFactory
+from keygen.crypto_coin_factory import CoinFactory
 from scan_states.context import Context
 from scan_states.state_factory import get_state
 from scan_states.states_enum import States
+import logging
 
 
 class CoinCheckerController(Context):
-    def __init__(self, root, window):
+    def __init__(self, root, window, coin_factory: CoinFactory = Provide['coin_factory']):
         super().__init__()
+        self.coin_factory = coin_factory
+        self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.root = root
         self.window = window
 
@@ -22,7 +26,7 @@ class CoinCheckerController(Context):
         self.snip = None
 
     def init(self):
-        currencies = coinFactory.get_available_currencies()
+        currencies = self.coin_factory.get_available_currencies()
         self.currency = currencies[0]
 
         self.select_currency(self.currency)
@@ -35,10 +39,10 @@ class CoinCheckerController(Context):
 
     def select_currency(self, currency):
         self.currency = currency
-        self.coin_service = coinFactory.get_coin_service(self.currency)
+        self.coin_service = self.coin_factory.get_coin_service(self.currency)
         self.change_state(States.SCAN_COIN_STATE)
         self.root.set_currency(currency)
-        print("Selected currency: ", self.currency)
+        self.logger.info("Selected currency: %s", self.currency)
 
     def on_qr_code_scanned(self, qr_code_text):
         self.state.on_qr_code_scanned(qr_code_text)
@@ -49,7 +53,7 @@ class CoinCheckerController(Context):
         self.snip = None
 
     def change_state(self, new_state: States):
-        print("New state:", new_state)
+        self.logger.info("New state: %s", new_state)
         self.state = get_state(new_state, self)
         self.state.init_state()
 
