@@ -14,12 +14,19 @@ class FooterWidget:
         self.coin_widget = CoinWidget(left_frame, frame_width=frame_width, frame_height=frame_height)
         left_frame.pack(side=LEFT)
 
+        camera_enabled = False
+
         camera_width = frame_width
         camera_height = frame_height
-        camera_frame = tkinter.Frame(self.frame, width=camera_width, height=camera_height, borderwidth=2)
-        self.camera_widget = CameraWidget(camera_frame=camera_frame, width=camera_width, height=camera_height,
-                                          on_qr_scanned_callback=on_qr_code_scanned, paused=True)
-        camera_frame.pack(side=RIGHT)
+
+        if camera_enabled:
+            camera_frame = tkinter.Frame(self.frame, width=camera_width, height=camera_height, borderwidth=2)
+            self.camera_widget = CameraWidget(camera_frame=camera_frame, width=camera_width, height=camera_height,
+                                              on_qr_scanned_callback=on_qr_code_scanned, paused=True)
+            camera_frame.pack(side=RIGHT)
+        else:
+            tkinter.Frame(self.frame, width=camera_width, height=camera_height, borderwidth=2).pack(side=RIGHT)
+            self.camera_widget = None
 
     def set_currency(self, currency):
         self.coin_widget.set_currency(currency)
@@ -38,3 +45,11 @@ class FooterWidget:
 
     def show_coin_details_info(self, private_key, snip, address):
         self.coin_widget.show_coin_details_info(private_key, snip, address)
+
+    def resume_camera_widget(self):
+        if self.camera_widget is not None:
+            self.camera_widget.resume()
+
+    def pause_camera_widget(self):
+        if self.camera_widget is not None:
+            self.camera_widget.pause()

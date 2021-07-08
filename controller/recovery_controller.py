@@ -3,6 +3,7 @@ import asynctkinter as at
 import pygame
 from dependency_injector.wiring import Provide
 
+from app_tools.qr.keyboard_scanner import KeyboardScanner
 from keygen.crypto_coin_factory import CoinFactory
 from logic.recovery import RecoveryProcessor
 from scan_states.recovery.context import Context
@@ -12,10 +13,13 @@ import logging
 
 
 class RecoveryController(Context):
-    def __init__(self, root, window, coin_factory: CoinFactory = Provide['coin_factory']):
+    def __init__(self, root, window,
+                 coin_factory: CoinFactory = Provide['coin_factory'],
+                 keyboard_scanner: KeyboardScanner = Provide['keyboard_scanner'],):
         super().__init__()
-        self.coin_factory = coin_factory
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+        self.coin_factory = coin_factory
+        self.keyboard_scanner = keyboard_scanner
         self.recovery_processor = RecoveryProcessor()
 
         self.root = root
@@ -39,10 +43,21 @@ class RecoveryController(Context):
 
         self.select_currency(self.currency)
 
+    def scanning_start(self):
+        if self.keyboard_scanner is not None:
+            self.logger.info("scanning_start")
+            self.keyboard_scanner.scan_text(self.on_qr_code_scanned)
+
+    def scanning_stop(self):
+        if self.keyboard_scanner is not None:
+            self.logger.info("scanning_stop")
+            self.keyboard_scanner.scanning_release()
+
     def on_currency_selected(self, currency):
         self.select_currency(currency)
 
     def on_refreshed(self):
+        self.scanning_start()
         self.coins = []
         self.root.set_scanned_count(len(self.coins))
         self.change_state(States.SCAN_COIN_STATE)

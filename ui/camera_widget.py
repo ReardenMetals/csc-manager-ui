@@ -31,7 +31,8 @@ class CameraWidget:
         self.vid = self.video_capture
         self.delay = 40
 
-        # self.camera_frame.after(1000, self.update_barcode_frame)
+        self.video_capture.init()
+        self.camera_frame.after(1000, self.update_barcode_frame)
 
     def update_barcode_frame(self):
         if self.paused:

@@ -2,21 +2,23 @@ import asynctkinter as at
 import pygame
 from dependency_injector.wiring import Provide
 
+from app_tools.qr.keyboard_scanner import KeyboardScanner
 from keygen.crypto_coin_factory import CoinFactory
 from scan_states.context import Context
 from scan_states.state_factory import get_state
 from scan_states.states_enum import States
 import logging
 
-from pynput import keyboard
-from pynput.keyboard import Key
-
 
 class CoinCheckerController(Context):
-    def __init__(self, root, window, coin_factory: CoinFactory = Provide['coin_factory']):
+    def __init__(self, root, window,
+                 coin_factory: CoinFactory = Provide['coin_factory'],
+                 keyboard_scanner: KeyboardScanner = Provide['keyboard_scanner'],
+                 ):
         super().__init__()
-        self.coin_factory = coin_factory
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
+        self.coin_factory = coin_factory
+        self.keyboard_scanner = keyboard_scanner
         self.root = root
         self.window = window
 
@@ -27,39 +29,27 @@ class CoinCheckerController(Context):
         self.fetched_address = None
         self.private_key = None
         self.snip = None
-        self.qr_text1 = ''
 
     def init(self):
         currencies = self.coin_factory.get_available_currencies()
         self.currency = currencies[0]
-
         self.select_currency(self.currency)
-        self.start_async(self.test_async())
 
-    async def test_async(self):
-        await self.run_in_thread(lambda: self.test())
+    def scanning_start(self):
+        if self.keyboard_scanner is not None:
+            self.logger.info("scanning_start")
+            self.keyboard_scanner.scan_text(self.on_qr_code_scanned)
 
-    def test(self):
-        while True:
-            with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
-                listener.join()
-
-    def on_press(self, key):
-        if key != Key.enter:
-            self.qr_text1 = self.qr_text1 + key.char
-        # print(self.qr_text1)
-
-    def on_release(self, key):
-        if key == Key.enter:
-            print(self.qr_text1)
-            self.on_qr_code_scanned(self.qr_text1)
-            self.qr_text1 = ''
-            return False
+    def scanning_stop(self):
+        if self.keyboard_scanner is not None:
+            self.logger.info("scanning_stop")
+            self.keyboard_scanner.scanning_release()
 
     def on_currency_selected(self, currency):
         self.select_currency(currency)
 
     def on_refreshed(self):
+        self.scanning_start()
         self.change_state(States.SCAN_COIN_STATE)
 
     def select_currency(self, currency):
