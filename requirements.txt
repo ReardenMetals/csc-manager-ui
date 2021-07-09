@@ -9,3 +9,4 @@ pynput==1.7.3
 six==1.15.0
 numpy==1.21.0
 mnemonic==0.19
+pytest==6.2.4
