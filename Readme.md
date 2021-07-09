@@ -62,12 +62,7 @@ Run CLI Update:
 
 Install needed dependencies:
 
-    pip install asynctkinter==0.1.1
-    pip install pygame==2.0.1
-    pip install Pillow==8.1.0
-    pip install opencv-python==4.5.1.48
-    pip install pyzbar==0.1.8
-    pip install imutils==0.5.4
+    pip install -r requirements.txt
     
 Change application config ("config.json" in root folder) to your file pathes:
     
@@ -105,3 +100,13 @@ Preparing package for AWS Lambda:
     zip -g ~/lambda.zip ~/csc-manager/aws_lambda.py
     
 Upload zip archive to AWS Lambda.
+
+# Installing for PyCharm
+
+Check actual dependencies
+
+    pip freeze | grep 'pynput'
+
+Install dependencies
+
+    pip install -r ./csc-manager-ui/requirements.txt
