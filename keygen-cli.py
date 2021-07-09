@@ -1,6 +1,8 @@
 from logic.keygen import KeygenProcessor
 
-keygen = KeygenProcessor()
+import sys
+from di.containers import MyContainer
+import logic
 
 
 def default_input(message, defaultVal):
@@ -11,6 +13,7 @@ def default_input(message, defaultVal):
 
 
 def init():
+    keygen = KeygenProcessor()
     max_iterator_count = int(default_input("How many codes you want? ", "10"))
     coin = default_input("What crypto you making (BTC, ETH, ...)? ", "BTC").upper()
     laser_type = default_input("What laser is this (A, B, C)? ", "A").upper()
@@ -18,4 +21,8 @@ def init():
 
 
 if __name__ == "__main__":
+    container = MyContainer()
+    container.init_resources()
+    container.config.from_ini('config.ini')
+    container.wire(modules=[sys.modules[__name__]], packages=[logic])
     init()

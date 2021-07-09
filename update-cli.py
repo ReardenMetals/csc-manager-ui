@@ -1,5 +1,9 @@
 from logic.update import UpdateProcessor
 
+import sys
+from di.containers import MyContainer
+import logic
+
 
 def main():
     update_processor = UpdateProcessor()
@@ -8,4 +12,8 @@ def main():
 
 
 if __name__ == "__main__":
+    container = MyContainer()
+    container.init_resources()
+    container.config.from_ini('config.ini')
+    container.wire(modules=[sys.modules[__name__]], packages=[logic])
     main()
