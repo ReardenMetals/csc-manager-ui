@@ -3,6 +3,7 @@ import asynctkinter as at
 import pygame
 from dependency_injector.wiring import Provide
 
+from app_tools.config_loader import ConfigLoader
 from app_tools.qr.keyboard_scanner import KeyboardScanner
 from keygen.crypto_coin_factory import CoinFactory
 from logic.recovery import RecoveryProcessor
@@ -15,10 +16,12 @@ import logging
 class RecoveryController(Context):
     def __init__(self, root, window,
                  coin_factory: CoinFactory = Provide['coin_factory'],
-                 keyboard_scanner: KeyboardScanner = Provide['keyboard_scanner'],):
+                 keyboard_scanner: KeyboardScanner = Provide['keyboard_scanner'],
+                 config_loader: ConfigLoader = Provide['config_loader'],):
         super().__init__()
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.coin_factory = coin_factory
+        self.config_loader = config_loader
         self.keyboard_scanner = keyboard_scanner
         self.recovery_processor = RecoveryProcessor()
 
@@ -43,13 +46,16 @@ class RecoveryController(Context):
 
         self.select_currency(self.currency)
 
+    def keyboard_scanning_enabled(self):
+        return self.config_loader.get_general('scan_mode') == 'BARCODE_SCANNER'
+
     def scanning_start(self):
-        if self.keyboard_scanner is not None:
+        if self.keyboard_scanning_enabled() and self.keyboard_scanner is not None:
             self.logger.info("scanning_start")
             self.keyboard_scanner.scan_text(self.on_qr_code_scanned)
 
     def scanning_stop(self):
-        if self.keyboard_scanner is not None:
+        if self.keyboard_scanning_enabled() and self.keyboard_scanner is not None:
             self.logger.info("scanning_stop")
             self.keyboard_scanner.scanning_release()
 

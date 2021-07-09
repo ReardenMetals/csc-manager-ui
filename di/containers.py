@@ -3,6 +3,8 @@
 import logging.config
 
 from dependency_injector import containers, providers
+
+from app_tools.config_loader import ConfigLoader
 from app_tools.my_video_capture import MyVideoCapture
 # from app_tools.qr.dynamsoft_qr_code_scaner import DynamsoftQrCodeScanner
 from app_tools.qr.keyboard_scanner import KeyboardScanner
@@ -29,3 +31,5 @@ class MyContainer(containers.DeclarativeContainer):
     qr_code_scanner = providers.Singleton(ZbarQrCodeScanner)
 
     keyboard_scanner = providers.Singleton(KeyboardScanner)
+
+    config_loader = providers.Singleton(ConfigLoader, config)
