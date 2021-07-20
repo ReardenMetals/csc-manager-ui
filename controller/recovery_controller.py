@@ -52,7 +52,7 @@ class RecoveryController(Context):
         self.select_currency(self.currency)
 
     def keyboard_scanning_enabled(self):
-        return self.config_loader.get_general('scan_mode') == 'BARCODE_SCANNER'
+        return self.config_loader.get_general('scan_mode') == 'barcode_scanner'
 
     def scanning_start(self):
         if self.keyboard_scanning_enabled() and self.keyboard_scanner is not None:

@@ -18,7 +18,7 @@ class FooterWidget:
         self.coin_widget = CoinWidget(left_frame, frame_width=frame_width, frame_height=frame_height)
         left_frame.pack(side=LEFT)
 
-        camera_enabled = (config_loader.get_general('scan_mode') == 'WEBCAM')
+        camera_enabled = (config_loader.get_general('scan_mode') == 'webcam')
 
         camera_width = frame_width
         camera_height = frame_height

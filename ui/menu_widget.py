@@ -17,8 +17,8 @@ class MenuWidget:
 
         view_menu = Menu(self.menu_bar)
         # https://stackoverflow.com/questions/45921703/how-to-add-radiobuttons-to-a-submenu-in-tkinter
-        view_menu.add_radiobutton(label="BARCODE_SCANNER", command=self.activate_barcode_scanner, var=1, value=1)
-        view_menu.add_radiobutton(label="WEBCAM", command=self.activate_webcam, var=1, value=2)
+        view_menu.add_radiobutton(label="barcode_scanner", command=self.activate_barcode_scanner, var=1, value=1)
+        view_menu.add_radiobutton(label="webcam", command=self.activate_webcam, var=1, value=2)
         self.menu_bar.add_cascade(label='Scan Mode', menu=view_menu)
 
         help_menu = Menu(self.menu_bar, tearoff=0)
@@ -28,12 +28,12 @@ class MenuWidget:
         root.config(menu=self.menu_bar)
 
     def activate_barcode_scanner(self):
-        self.set_value_in_property_file('general', 'scan_mode', 'BARCODE_SCANNER')
+        self.set_value_in_property_file('general', 'scan_mode', 'barcode_scanner')
         print("activate_barcode_scanner")
         self.restart_program()
 
     def activate_webcam(self):
-        self.set_value_in_property_file('general', 'scan_mode', 'WEBCAM')
+        self.set_value_in_property_file('general', 'scan_mode', 'webcam')
         print("activate_webcam")
         self.restart_program()
 
@@ -49,7 +49,7 @@ class MenuWidget:
 
     def set_value_in_property_file(self, section, key, value):
         file_path = 'config.ini'
-        config = ConfigParser(comment_prefixes='/', allow_no_value=True)
+        config = ConfigParser(comment_prefixes="/", allow_no_value=True)
         config.read(file_path)
         config.set(section, key, value)
         cfgfile = open(file_path, 'w')
