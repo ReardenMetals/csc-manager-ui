@@ -11,7 +11,7 @@ import controller
 def main():
     tk = tkinter.Tk()
     pygame.mixer.init()
-    App("CSC Manager UI v0.2.0", tk)
+    App("CSC Manager UI v0.2.1", tk)
     tk.mainloop()
 
 
