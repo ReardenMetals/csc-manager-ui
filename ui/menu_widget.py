@@ -1,13 +1,16 @@
-import os
-import sys
 from tkinter import Menu
 import webbrowser
-from configparser import ConfigParser
+
+from app_tools.config_updater import ConfigUpdater
+from app_tools.os_utils import restart_program
+from ui.settings_window import SettingsWindow
 
 
 class MenuWidget:
 
     def __init__(self, root):
+        self.root = root
+
         self.menu_bar = Menu(root)
         self.file_menu = Menu(self.menu_bar, tearoff=0)
         self.file_menu.add_command(label="Settings", command=self.open_settings)
@@ -28,30 +31,16 @@ class MenuWidget:
         root.config(menu=self.menu_bar)
 
     def activate_barcode_scanner(self):
-        self.set_value_in_property_file('general', 'scan_mode', 'barcode_scanner')
-        print("activate_barcode_scanner")
-        self.restart_program()
+        ConfigUpdater.set_value_in_property_file('general', 'scan_mode', 'barcode_scanner')
+        restart_program()
 
     def activate_webcam(self):
-        self.set_value_in_property_file('general', 'scan_mode', 'webcam')
-        print("activate_webcam")
-        self.restart_program()
+        ConfigUpdater.set_value_in_property_file('general', 'scan_mode', 'webcam')
+        restart_program()
 
     def help_index_action(self):
         webbrowser.open("https://github.com/ReardenMetals/csc-manager-ui", new=1)
 
     def open_settings(self):
         print('Open settings')
-
-    def restart_program(self):
-        python = sys.executable
-        os.execl(python, python, *sys.argv)
-
-    def set_value_in_property_file(self, section, key, value):
-        file_path = 'config.ini'
-        config = ConfigParser(comment_prefixes="/", allow_no_value=True)
-        config.read(file_path)
-        config.set(section, key, value)
-        cfgfile = open(file_path, 'w')
-        config.write(cfgfile, space_around_delimiters=False)  # use flag in case case you need to avoid white space.
-        cfgfile.close()
+        SettingsWindow(self.root)

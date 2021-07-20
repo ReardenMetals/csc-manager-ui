@@ -13,3 +13,6 @@ class ConfigLoader:
 
     def get_recovery_scanner(self, key: str):
         return self.__config['recovery_scanner'][key.lower()]
+
+    def get_barcode_scanner(self, key: str):
+        return self.__config['barcode_scanner'][key.lower()]
