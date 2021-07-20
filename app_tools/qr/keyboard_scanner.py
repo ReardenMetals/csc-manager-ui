@@ -2,14 +2,17 @@ from pynput import keyboard
 from pynput.keyboard import Key
 import logging
 
+WORD_SEPARATOR_ENTER='enter'
+WORD_SEPARATOR_TAB='tab'
 
 class KeyboardScanner:
 
-    def __init__(self):
+    def __init__(self, word_separator=WORD_SEPARATOR_ENTER):
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.__chars_list = []
         self.__text_listener = None
         self.__keyboard_listener = None
+        self._word_separator = word_separator
 
     def scan_text(self, text_listener):
         if self.__keyboard_listener is not None:
@@ -41,7 +44,7 @@ class KeyboardScanner:
     def __on_release(self, key: Key):
         self.logger.debug('{0} released'.format(
             key))
-        if key == keyboard.Key.enter:
+        if key == self._get_word_separator():
             # Stop listener
             text = ''.join(map(str, self.__chars_list))
             self.__chars_list = []
@@ -50,3 +53,11 @@ class KeyboardScanner:
                 self.__text_listener(text)
         if key == keyboard.Key.esc:
             return False
+
+    def _get_word_separator(self):
+        if self._word_separator == WORD_SEPARATOR_ENTER:
+            return keyboard.Key.enter
+        elif self._word_separator == WORD_SEPARATOR_TAB:
+            return keyboard.Key.tab
+        else:
+            return keyboard.Key.enter

@@ -16,4 +16,7 @@ class ScanState:
         self.context.change_state(new_state)
 
     def on_qr_code_scanned(self, qr_code_text):
-        self.logger.info("on_qr_code_scanned: %s", qr_code_text)
+        self.logger.info("Received on_qr_code_scanned: %s", qr_code_text)
+
+    def get_config(self, key: str):
+        return self.context.get_config(key)

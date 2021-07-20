@@ -17,7 +17,7 @@ class UpdateController:
 
     async def update_async(self, last_good_coin):
         await self.run_in_thread(lambda: self.update_processor.update(last_good_coin))
-        self.logger.debug("self.root.show_success()")
+        self.logger.info('Update success!')
         self.root.show_success()
 
     def start_async(self, task):

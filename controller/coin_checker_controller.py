@@ -10,6 +10,9 @@ from scan_states.state_factory import get_state
 from scan_states.states_enum import States
 import logging
 
+FAILURE_SONG_CONFIG = 'failure_song'
+SUCCESS_SONG_CONFIG = 'success_song'
+
 
 class CoinCheckerController(Context):
     def __init__(self, root, window,
@@ -33,6 +36,8 @@ class CoinCheckerController(Context):
         self.private_key = None
         self.snip = None
 
+        self.music = pygame.mixer.music
+
     def init(self):
         currencies = self.coin_factory.get_available_currencies()
         self.currency = currencies[0]
@@ -43,12 +48,12 @@ class CoinCheckerController(Context):
 
     def scanning_start(self):
         if self.keyboard_scanning_enabled() and self.keyboard_scanner is not None:
-            self.logger.info("scanning_start")
+            self.logger.info("Scanning started...")
             self.keyboard_scanner.scan_text(self.on_qr_code_scanned)
 
     def scanning_stop(self):
         if self.keyboard_scanning_enabled() and self.keyboard_scanner is not None:
-            self.logger.info("scanning_stop")
+            self.logger.info("Scanning stopped")
             self.keyboard_scanner.scanning_release()
 
     def on_currency_selected(self, currency):
@@ -122,10 +127,14 @@ class CoinCheckerController(Context):
         self.root.show_coin_details_info(private_key, "...", "...")
 
     def play_success_song(self):
-        self._play_song("./resources/audio/definite.mp3")
+        success_song = self.get_config(SUCCESS_SONG_CONFIG)
+        self.logger.info("Success song: %s", success_song)
+        self._play_song(success_song)
 
     def play_error_song(self):
-        self._play_song("./resources/audio/no-trespassing.mp3")
+        failure_song = self.get_config(FAILURE_SONG_CONFIG)
+        self.logger.info("Failure song: %s", failure_song)
+        self._play_song(failure_song)
 
     def start_async(self, task):
         at.start(task)
@@ -136,8 +145,10 @@ class CoinCheckerController(Context):
     def sleep(self, milliseconds):
         return at.sleep(milliseconds, after=self.window.after)
 
-    @staticmethod
-    def _play_song(file_name: str):
-        music = pygame.mixer.music
-        music.load(file_name)
-        music.play()
+    def _play_song(self, file_name: str):
+        if file_name:
+            self.music.load(file_name)
+            self.music.play()
+
+    def get_config(self, key: str):
+        return self.config_loader.get_coin_checker(key)

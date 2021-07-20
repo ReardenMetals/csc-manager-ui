@@ -11,6 +11,7 @@ from app_tools.qr.keyboard_scanner import KeyboardScanner
 from app_tools.qr.zbar_qr_code_scaner import ZbarQrCodeScanner
 from crypto_coin_factory import CoinFactoryExtended
 from keygen.crypto_coin_factory import CoinFactory
+from logic.keygen import KeygenProcessor
 
 
 class MyContainer(containers.DeclarativeContainer):
@@ -30,6 +31,8 @@ class MyContainer(containers.DeclarativeContainer):
     # qr_code_scanner = providers.Singleton(DynamsoftQrCodeScanner, config.dynamo_soft.license_key)
     qr_code_scanner = providers.Singleton(ZbarQrCodeScanner)
 
-    keyboard_scanner = providers.Singleton(KeyboardScanner)
+    keyboard_scanner = providers.Singleton(KeyboardScanner, word_separator=config.barcode_scanner.word_separator)
 
     config_loader = providers.Singleton(ConfigLoader, config)
+
+    keygen_processor = providers.Singleton(KeygenProcessor, coin_factory=coin_factory)
