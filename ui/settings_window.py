@@ -28,7 +28,7 @@ class SettingsWindow:
         scan_modes = ['barcode_scanner', 'webcam']
         scan_mode_frame = tkinter.Frame(main_container, pady=15)
         Label(scan_mode_frame, text="Scan mode").pack()
-        self.scan_mode_combobox = ttk.Combobox(scan_mode_frame, values=scan_modes)
+        self.scan_mode_combobox = ttk.Combobox(scan_mode_frame, state="readonly", values=scan_modes)
         self.scan_mode_combobox.current(scan_modes.index(current_scan_mode))
         self.scan_mode_combobox.pack()
         scan_mode_frame.pack()
@@ -36,7 +36,8 @@ class SettingsWindow:
         scanner_separators = ['enter', 'tab']
         scanner_separator_frame = tkinter.Frame(main_container, pady=15)
         Label(scanner_separator_frame, text="Scanner word separator").pack()
-        self.scanner_separator_combobox = ttk.Combobox(scanner_separator_frame, values=scanner_separators)
+        self.scanner_separator_combobox = ttk.Combobox(scanner_separator_frame, state="readonly",
+                                                       values=scanner_separators)
         self.scanner_separator_combobox.current(scanner_separators.index(current_word_separator))
         self.scanner_separator_combobox.pack()
         scanner_separator_frame.pack()
