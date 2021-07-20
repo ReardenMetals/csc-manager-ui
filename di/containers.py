@@ -31,7 +31,7 @@ class MyContainer(containers.DeclarativeContainer):
     # qr_code_scanner = providers.Singleton(DynamsoftQrCodeScanner, config.dynamo_soft.license_key)
     qr_code_scanner = providers.Singleton(ZbarQrCodeScanner)
 
-    keyboard_scanner = providers.Singleton(KeyboardScanner)
+    keyboard_scanner = providers.Singleton(KeyboardScanner, word_separator=config.barcode_scanner.word_separator)
 
     config_loader = providers.Singleton(ConfigLoader, config)
 
