@@ -2,14 +2,12 @@ import json
 
 import logging
 
-from dependency_injector.wiring import Provide
-
 from keygen.crypto_coin_factory import CoinFactory
 
 
 class KeygenProcessor:
 
-    def __init__(self, coin_factory: CoinFactory = Provide['coin_factory']):
+    def __init__(self, coin_factory: CoinFactory):
         super().__init__()
         self.coin_factory = coin_factory
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )

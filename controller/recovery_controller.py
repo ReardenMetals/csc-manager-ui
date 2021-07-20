@@ -12,6 +12,9 @@ from scan_states.recovery.state_factory import get_state
 from scan_states.recovery.states_enum import States
 import logging
 
+FAILURE_SONG_CONFIG = 'failure_song'
+SUCCESS_SONG_CONFIG = 'success_song'
+
 
 class RecoveryController(Context):
     def __init__(self, root, window,
@@ -39,6 +42,8 @@ class RecoveryController(Context):
 
         # list of tuples (CryptoCoin, asset_id)
         self.coins = []
+
+        self.music = pygame.mixer.music
 
     def init(self):
         currencies = self.coin_factory.get_available_currencies()
@@ -139,10 +144,14 @@ class RecoveryController(Context):
         self.root.show_coin_details_info(private_key, "...", "...")
 
     def play_success_song(self):
-        self._play_song("./resources/audio/definite.mp3")
+        success_song = self.get_config(SUCCESS_SONG_CONFIG)
+        self.logger.info("Success song: %s", success_song)
+        self._play_song(success_song)
 
     def play_error_song(self):
-        self._play_song("./resources/audio/no-trespassing.mp3")
+        failure_song = self.get_config(FAILURE_SONG_CONFIG)
+        self.logger.info("Failure song: %s", failure_song)
+        self._play_song(failure_song)
 
     def start_async(self, task):
         at.start(task)
@@ -157,13 +166,15 @@ class RecoveryController(Context):
         if len(self.coins) > 0:
             self.logger.info("Saving %s of coins", len(self.coins))
             await self.run_in_thread(lambda: self.recovery_processor.save_recovered_coins(self.coins))
-            self.logger.debug("self.root.show_success()")
+            self.logger.info("Recovered coins saved")
             self.root.show_success()
         else:
             self.logger.error("No coins to save")
 
-    @staticmethod
-    def _play_song(file_name: str):
-        music = pygame.mixer.music
-        music.load(file_name)
-        music.play()
+    def _play_song(self, file_name: str):
+        if file_name:
+            self.music.load(file_name)
+            self.music.play()
+
+    def get_config(self, key: str):
+        return self.config_loader.get_recovery_scanner(key)

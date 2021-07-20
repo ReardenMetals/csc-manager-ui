@@ -28,9 +28,7 @@ class KeygenWidget:
 
         combo_frame = tkinter.Frame(root, pady=15)
         tkinter.Label(combo_frame, text="Select currency").pack()
-        # Adding combobox drop down list
         self.crypto_chosen = ttk.Combobox(combo_frame, state="readonly", width=27, values=self.currencies)
-        # self.crypto_chosen.bind("<<ComboboxSelected>>", self.on_currency_checkbox_selected)
         self.crypto_chosen.current(0)
         self.crypto_chosen.pack()
         combo_frame.pack()
@@ -46,9 +44,7 @@ class KeygenWidget:
         self.lasers = load_lasers()
         laser_frame = tkinter.Frame(root, pady=15)
         tkinter.Label(laser_frame, text="Select laser").pack()
-        # Adding combobox drop down list
         self.laser_chosen = ttk.Combobox(laser_frame, width=27, values=self.lasers)
-        # self.crypto_chosen.bind("<<ComboboxSelected>>", self.on_currency_checkbox_selected)
         self.laser_chosen.current(0)
         self.laser_chosen.pack()
         laser_frame.pack()

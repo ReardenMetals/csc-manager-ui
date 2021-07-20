@@ -1,3 +1,6 @@
+from dependency_injector.wiring import Provide
+
+from keygen.crypto_coin_factory import CoinFactory
 from logic.keygen import KeygenProcessor
 
 import sys
@@ -12,8 +15,8 @@ def default_input(message, defaultVal):
         return input("%s " % message)
 
 
-def init():
-    keygen = KeygenProcessor()
+def init(coin_factory: CoinFactory = Provide['coin_factory']):
+    keygen = KeygenProcessor(coin_factory=coin_factory)
     max_iterator_count = int(default_input("How many codes you want? ", "10"))
     coin = default_input("What crypto you making (BTC, ETH, ...)? ", "BTC").upper()
     laser_type = default_input("What laser is this (A, B, C)? ", "A").upper()

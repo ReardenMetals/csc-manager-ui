@@ -67,3 +67,6 @@ class Context:
 
     def sleep(self, milliseconds):
         pass
+
+    def get_config(self, key: str):
+        pass

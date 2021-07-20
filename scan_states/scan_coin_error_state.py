@@ -10,4 +10,5 @@ class ScanCoinErrorState(ScanState):
     def init_state(self):
         super().init_state()
         self.context.play_error_song()
+        self.logger.info("Changing state to: <SCAN_COIN_STATE>")
         self.change_state(States.SCAN_COIN_STATE)

@@ -1,6 +1,8 @@
 from scan_states.recovery.scan_state import ScanState
 from scan_states.recovery.states_enum import States
 
+STATE_DELAY_CONFIG = 'apply_coin_state_delay'
+
 
 class ApplyCoinState(ScanState):
 
@@ -15,5 +17,8 @@ class ApplyCoinState(ScanState):
         self.context.start_async(self.delay_task())
 
     async def delay_task(self):
-        await self.context.sleep(1000)
+        delay_config = self.get_config(STATE_DELAY_CONFIG)
+        self.logger.info("Recovery %s: %s (ms)", STATE_DELAY_CONFIG, delay_config)
+        await self.context.sleep(delay_config)  # Default 1000
+        self.logger.info("Changing state to: <SCAN_COIN_STATE>")
         self.change_state(States.SCAN_COIN_STATE)

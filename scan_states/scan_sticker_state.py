@@ -26,8 +26,8 @@ class ScanStickerState(ScanState):
         self.logger.info("Fetched address: %s", self.context.get_fetched_address())
         self.logger.info("Scanned address: %s", address_text)
         if self.context.get_fetched_address() == address_text:
-            self.logger.info("fetched_address == address_text")
+            self.logger.info("Success! Fetched address (from private key) and scanned address are the same")
             self.change_state(States.APPLY_STICKER_STATE)
         else:
-            self.logger.info("fetched_address != address_text")
+            self.logger.info("Mismatch! Fetched address (from private key) is not the same as scanned address")
             self.change_state(States.MISMATCH_STATE)
