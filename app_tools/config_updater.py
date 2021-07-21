@@ -10,8 +10,7 @@ class ConfigUpdater:
 
     # args = [(section, key, value), ...]
     @staticmethod
-    def set_values_in_property_file(args=[]):
-        file_path = 'config.ini'
+    def set_values_in_property_file(args=[], file_path='config.ini'):
         config = ConfigParser(comment_prefixes="/", allow_no_value=True)
         config.read(file_path)
         for arg in args:
@@ -22,3 +21,9 @@ class ConfigUpdater:
         cfg_file = open(file_path, 'w')
         config.write(cfg_file, space_around_delimiters=False)  # use flag in case case you need to avoid white space.
         cfg_file.close()
+
+    @staticmethod
+    def get_property(section, key, file_path='config.ini'):
+        config = ConfigParser(comment_prefixes="/", allow_no_value=True)
+        config.read(file_path)
+        return config.get(section, key)
