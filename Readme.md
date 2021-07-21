@@ -86,21 +86,6 @@ Run CLI Update:
 
     python update.py
 
-# AWS Lambda keygen installation
-    
-Install needed dependencies:
-    
-    pip install --target ~/lambda-package bip_utils==1.7.0 bitsv==0.11.5 cashaddress==1.0.6 aioeos==1.0.2 \
-        pywallet==0.1.0 monero==0.8 PyWaves==0.8.15 base58==2.0.0
-        
-Preparing package for AWS Lambda:
-
-    cp -r ~/csc-manager/keygen ~/lambda-package/
-    zip -r9 ~/lambda.zip .
-    zip -g ~/lambda.zip ~/csc-manager/aws_lambda.py
-    
-Upload zip archive to AWS Lambda.
-
 # Installing for PyCharm
 
 Check actual dependencies
