@@ -6,7 +6,7 @@ from logic.coin_files_saver import CoinFilesSaver
 
 class KeygenProcessor:
 
-    def __init__(self, coin_factory: CoinFactory, coin_file_saver=CoinFilesSaver()):
+    def __init__(self, coin_factory: CoinFactory, coin_file_saver: CoinFilesSaver):
         super().__init__()
         self.coin_factory = coin_factory
         self.coin_file_saver = coin_file_saver

@@ -11,7 +11,10 @@ from app_tools.qr.keyboard_scanner import KeyboardScanner
 from app_tools.qr.zbar_qr_code_scaner import ZbarQrCodeScanner
 from crypto_coin_factory import CoinFactoryExtended
 from keygen.crypto_coin_factory import CoinFactory
+from logic.coin_files_saver import CoinFilesSaver
 from logic.keygen import KeygenProcessor
+from logic.recovery import RecoveryProcessor
+from logic.update import UpdateProcessor
 
 
 class MyContainer(containers.DeclarativeContainer):
@@ -35,4 +38,10 @@ class MyContainer(containers.DeclarativeContainer):
 
     config_loader = providers.Singleton(ConfigLoader, config)
 
-    keygen_processor = providers.Singleton(KeygenProcessor, coin_factory=coin_factory)
+    coin_files_saver = providers.Singleton(CoinFilesSaver)
+
+    keygen_processor = providers.Singleton(KeygenProcessor, coin_factory=coin_factory, coin_file_saver=coin_files_saver)
+
+    recovery_processor = providers.Singleton(RecoveryProcessor, coin_file_saver=coin_files_saver)
+
+    update_processor = providers.Singleton(UpdateProcessor)

@@ -16,9 +16,9 @@ def default_input(message, default_val):
         return input("%s " % message)
 
 
-def main(coin_factory: CoinFactory = Provide['coin_factory']):
+def main(coin_factory: CoinFactory = Provide['coin_factory'],
+         recovery_processor: RecoveryProcessor = Provide['recovery_processor']):
     private_keys = load_private_keys()
-    recovery_processor = RecoveryProcessor()
     coin_currency = default_input("What crypto you making (BTC, ETH, ...)? ", "BTC").upper()
     service = coin_factory.get_coin_service(coin_currency)
 

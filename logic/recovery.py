@@ -5,7 +5,7 @@ from logic.coin_files_saver import CoinFilesSaver
 
 class RecoveryProcessor:
 
-    def __init__(self, coin_file_saver=CoinFilesSaver()):
+    def __init__(self, coin_file_saver: CoinFilesSaver):
         super().__init__()
         self.coin_file_saver = coin_file_saver
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )

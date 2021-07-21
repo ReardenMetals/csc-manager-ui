@@ -20,13 +20,14 @@ class RecoveryController(Context):
     def __init__(self, root, window,
                  coin_factory: CoinFactory = Provide['coin_factory'],
                  keyboard_scanner: KeyboardScanner = Provide['keyboard_scanner'],
-                 config_loader: ConfigLoader = Provide['config_loader'],):
+                 config_loader: ConfigLoader = Provide['config_loader'],
+                 recovery_processor: RecoveryProcessor = Provide['recovery_processor']):
         super().__init__()
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.coin_factory = coin_factory
         self.config_loader = config_loader
         self.keyboard_scanner = keyboard_scanner
-        self.recovery_processor = RecoveryProcessor()
+        self.recovery_processor = recovery_processor
 
         self.root = root
         self.window = window

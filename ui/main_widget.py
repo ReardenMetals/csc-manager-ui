@@ -50,7 +50,5 @@ class MainWidget:
         menu_widget = MenuWidget(root=frame)
         frame.config(menu=menu_widget.menu_bar)
 
-
-
     def add_log(self, text):
         self.log_widget.add_log(text)

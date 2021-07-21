@@ -11,7 +11,7 @@ from ui.recovery.coin_widget import CoinWidget
 class FooterWidget:
 
     def __init__(self, frame, frame_width, frame_height, on_qr_code_scanned,
-                 config_loader: ConfigLoader = Provide['config_loader'],):
+                 config_loader: ConfigLoader = Provide['config_loader'], ):
         self.frame = frame
 
         left_frame = tkinter.Frame(self.frame, width=frame_width, height=frame_height, bg="GREY", borderwidth=2)
