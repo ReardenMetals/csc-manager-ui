@@ -44,4 +44,4 @@ class MyContainer(containers.DeclarativeContainer):
 
     recovery_processor = providers.Singleton(RecoveryProcessor, coin_file_saver=coin_files_saver)
 
-    update_processor = providers.Singleton(UpdateProcessor)
+    update_processor = providers.Singleton(UpdateProcessor, coin_file_saver=coin_files_saver)

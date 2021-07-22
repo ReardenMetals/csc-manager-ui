@@ -1,39 +1,76 @@
 import json
+from enum import Enum
+
+from app_tools.os_utils import copy_tmp_file
+
+
+class FileKey(Enum):
+    BASE_FILE_KEY = 'base_file_name'
+    SNIP_FILE_KEY = 'asset_id_file_name'
+    PRIVATE_FILE_KEY = 'private_file_name'
+    LABELS_FILE_KEY = 'public_file_name'
+    NUMBERS_FILE_KEY = 'sequence_file_name'
+    RECOVERED_FILE_KEY = 'recovered_file_name'
+    RECOVERED_KEYS_FILE_KEY = 'recovered_keys_file_name'
 
 
 class CoinFilesSaver:
 
     def __init__(self):
         with open('config.json') as json_file:
-            config_json = json.load(json_file)
-            self.base_file_name = config_json['base_file_name']
-            self.asset_id_file_name = config_json['asset_id_file_name']
-            self.private_file_name = config_json['private_file_name']
-            self.public_file_name = config_json['public_file_name']
-            self.sequence_file_name = config_json['sequence_file_name']
-            self.recovered_file_name = config_json['recovered_file_name']
-            self.recovered_keys_file_name = config_json['recovered_keys_file_name']
+            self.config_json = json.load(json_file)
+
+    def read_coins_list(self):
+        return self.read_from_file_by_key(FileKey.BASE_FILE_KEY)
 
     def save_coins_list(self, lines):
-        self.__save_to_file(lines, self.base_file_name)
+        self.save_to_file_by_key(lines, FileKey.BASE_FILE_KEY)
+
+    def read_asset_ids(self):
+        return self.read_from_file_by_key(FileKey.SNIP_FILE_KEY)
 
     def save_asset_ids(self, lines):
-        self.__save_to_file(lines, self.asset_id_file_name)
+        self.save_to_file_by_key(lines, FileKey.SNIP_FILE_KEY)
+
+    def read_private_keys(self):
+        return self.read_from_file_by_key(FileKey.PRIVATE_FILE_KEY)
 
     def save_private_keys(self, lines):
-        self.__save_to_file(lines, self.private_file_name)
+        self.save_to_file_by_key(lines, FileKey.PRIVATE_FILE_KEY)
+
+    def read_public_keys(self):
+        return self.read_from_file_by_key(FileKey.LABELS_FILE_KEY)
 
     def save_public_keys(self, lines):
-        self.__save_to_file(lines, self.public_file_name)
+        self.save_to_file_by_key(lines, FileKey.LABELS_FILE_KEY)
+
+    def read_sequence_coin_id(self):
+        return self.read_from_file_by_key(FileKey.NUMBERS_FILE_KEY)
 
     def save_sequence_coin_id(self, lines):
-        self.__save_to_file(lines, self.sequence_file_name)
+        self.save_to_file_by_key(lines, FileKey.NUMBERS_FILE_KEY)
 
     def save_recovered_labels(self, lines):
-        self.__save_to_file(lines, self.recovered_file_name)
+        self.save_to_file_by_key(lines, FileKey.RECOVERED_FILE_KEY)
 
     def save_recovered_keys(self, lines):
-        self.__save_to_file(lines, self.recovered_keys_file_name)
+        self.save_to_file_by_key(lines, FileKey.RECOVERED_KEYS_FILE_KEY)
+
+    def read_from_file_by_key(self, key: FileKey):
+        return self.__read_from_file(self.config_json[key.value])
+
+    def save_to_file_by_key(self, lines, key: FileKey):
+        self.__save_to_file(lines, self.config_json[key.value])
+
+    def copy_tmp_file_by_key(self, key: FileKey):
+        copy_tmp_file(self.config_json[key.value])
+
+    @staticmethod
+    def __read_from_file(filename):
+        with open(filename, 'r+') as file:
+            lines = file.read().splitlines()
+            file.close()
+        return lines
 
     @staticmethod
     def __save_to_file(lines, filename):
