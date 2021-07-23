@@ -9,6 +9,7 @@ class HeaderWidget:
         self.currencies = currencies
         self.on_currency_selected = on_currency_selected
         self.on_refreshed = on_refreshed
+        self.crypto_chosen = None
         self.init_ui()
 
     def init_ui(self):

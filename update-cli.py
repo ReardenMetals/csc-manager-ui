@@ -1,3 +1,5 @@
+from dependency_injector.wiring import Provide
+
 from logic.update import UpdateProcessor
 
 import sys
@@ -5,8 +7,7 @@ from di.containers import MyContainer
 import logic
 
 
-def main():
-    update_processor = UpdateProcessor()
+def main(update_processor: UpdateProcessor = Provide['update_processor']):
     good_coin = input("Enter the last good coin id : ")
     update_processor.update(good_coin)
 

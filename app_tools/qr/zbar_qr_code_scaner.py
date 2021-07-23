@@ -15,7 +15,6 @@ class ZbarQrCodeScanner(QrCodeScanner):
     def read_barcodes(self, frame, callback=None):
         if frame is None:
             return frame
-        self.logger.debug("Decoding QR Code")
         barcodes = pyzbar.decode(frame)
 
         if len(barcodes) == 0:

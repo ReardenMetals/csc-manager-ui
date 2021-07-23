@@ -53,11 +53,11 @@ class ScanCoinState(ScanState):
     def load_address_and_id(self, private_key):
         try:
             address, asset_id = self.context.load_address_and_id(private_key)
-            error = None
-            return address, asset_id, error
-        except Exception:
+            return address, asset_id, None
+        except Exception as e:
             address = None
             asset_id = None
             error = "Error loading address"
             self.logger.error(error)
+            self.logger.error(e)
             return address, asset_id, error

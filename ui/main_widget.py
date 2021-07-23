@@ -1,11 +1,11 @@
 import tkinter
-from tkinter import ttk
 
 from ui.coin_checker_widget import CoinCheckerWidget
 from ui.dispatcher_tab import DispatcherTab
 from ui.keygen_widget import KeygenWidget
 from ui.log_widget import LogWidget
 from ui.manager_notebook import ManagerNotebook
+from ui.menu_widget import MenuWidget
 from ui.recovery_widget import RecoveryWidget
 from ui.update_widget import UpdateWidget
 
@@ -46,6 +46,9 @@ class MainWidget:
 
         self.log_widget = LogWidget(log_frame, frame_width=bottom_frame_width)
         log_frame.pack(fill=tkinter.BOTH, expand=True)
+
+        menu_widget = MenuWidget(root=frame)
+        frame.config(menu=menu_widget.menu_bar)
 
     def add_log(self, text):
         self.log_widget.add_log(text)

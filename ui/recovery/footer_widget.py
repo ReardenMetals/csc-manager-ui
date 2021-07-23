@@ -11,14 +11,14 @@ from ui.recovery.coin_widget import CoinWidget
 class FooterWidget:
 
     def __init__(self, frame, frame_width, frame_height, on_qr_code_scanned,
-                 config_loader: ConfigLoader = Provide['config_loader'],):
+                 config_loader: ConfigLoader = Provide['config_loader'], ):
         self.frame = frame
 
         left_frame = tkinter.Frame(self.frame, width=frame_width, height=frame_height, bg="GREY", borderwidth=2)
         self.coin_widget = CoinWidget(left_frame, frame_width=frame_width, frame_height=frame_height)
         left_frame.pack(side=LEFT)
 
-        camera_enabled = (config_loader.get_general('scan_mode') == 'WEBCAM')
+        camera_enabled = (config_loader.get_general('scan_mode') == 'webcam')
 
         camera_width = frame_width
         camera_height = frame_height

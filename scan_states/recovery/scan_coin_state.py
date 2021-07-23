@@ -3,6 +3,8 @@ from scan_states.recovery.context import Context
 from scan_states.recovery.scan_state import ScanState
 from scan_states.recovery.states_enum import States
 
+STATE_DELAY_CONFIG = 'scan_coin_state_delay'
+
 
 class ScanCoinState(ScanState):
 
@@ -25,7 +27,7 @@ class ScanCoinState(ScanState):
 
     def on_private_key_scanned(self, private_key_text):
         if private_key_text != self.private_key_text:
-            self.logger.debug("Start processing: get_address_and_id")
+            self.logger.info("Start processing: get_address_and_id")
             self.private_key_text = private_key_text
             self.logger.info('private_key: %s', self.private_key_text)
             private_key = self.private_key_text
@@ -43,7 +45,9 @@ class ScanCoinState(ScanState):
                 self.context.set_fetched_snip(asset_id)
                 self.context.show_coin_info()
                 self.context.coins_add(CryptoCoin(address=address, wif=private_key), asset_id)
-                await self.context.sleep(500)
+                delay_config = self.get_config(STATE_DELAY_CONFIG)
+                self.logger.info("Recovery %s: %s (ms)", STATE_DELAY_CONFIG, delay_config)
+                await self.context.sleep(delay_config)  # Default 500
                 self.change_state(States.APPLY_COIN_STATE)
         else:
             self.logger.error('Error load_address_and_id')
@@ -57,9 +61,10 @@ class ScanCoinState(ScanState):
             address, asset_id = self.context.load_address_and_id(private_key)
             error = None
             return address, asset_id, error
-        except Exception:
+        except Exception as e:
             address = None
             asset_id = None
             error = "Error loading address"
             self.logger.error(error)
+            self.logger.error(e)
             return address, asset_id, error
