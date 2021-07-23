@@ -29,6 +29,7 @@ class KeygenProcessor:
             else:
                 self.logger.info("Iterator count should be > 0")
         except Exception as e:
+            self.logger.error("Error keys generating!")
             self.logger.error(e)
 
     def __save_coins_list(self, crypto_keygen_service, coin_list=[]):

@@ -37,9 +37,10 @@ class KeyboardScanner:
                 self.logger.info("Scanning new word...")
             self.logger.debug('alphanumeric key {0} pressed'.format(key.char))
             self.__chars_list.append(key.char)
-        except AttributeError:
+        except AttributeError as e:
             self.logger.debug('special key {0} pressed'.format(
                 key))
+            self.logger.warn(e)
 
     def __on_release(self, key: Key):
         self.logger.debug('{0} released'.format(

@@ -27,7 +27,7 @@ class MyVideoCapture:
                 # Return a boolean success flag and the current frame converted to BGR
                 return ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             else:
-                self.logger.error("Ret not found")
+                self.logger.critical("Ret not found")
                 return ret, None
         else:
             self.logger.error("get_frame Not opened")

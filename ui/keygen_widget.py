@@ -4,26 +4,23 @@ from tkinter.ttk import Progressbar
 
 from dependency_injector.wiring import Provide
 
+from app_tools.app_config import AppConfig
 from controller.keygen_controller import KeygenController
 
-import json
 import logging
 
 from keygen.crypto_coin_factory import CoinFactory
 
 
-def load_lasers():
-    with open('config.json') as json_file:
-        config_json = json.load(json_file)
-        lasers = config_json["lasers"]
-    return lasers
-
-
 class KeygenWidget:
 
-    def __init__(self, root, coin_factory: CoinFactory = Provide['coin_factory']):
+    def __init__(self, root,
+                 coin_factory: CoinFactory = Provide['coin_factory'],
+                 app_config: AppConfig = Provide['app_config'],
+                 ):
         self.logger = logging.getLogger(f'{self.__class__.__name__}', )
         self.root = root
+        self.app_config = app_config
         self.currencies = coin_factory.get_available_currencies()
 
         combo_frame = tkinter.Frame(root, pady=15)
@@ -41,7 +38,7 @@ class KeygenWidget:
         self.count_spin.pack()
         count_frame.pack()
 
-        self.lasers = load_lasers()
+        self.lasers = self.app_config.get_property("lasers")
         laser_frame = tkinter.Frame(root, pady=15)
         tkinter.Label(laser_frame, text="Select laser").pack()
         self.laser_chosen = ttk.Combobox(laser_frame, width=27, values=self.lasers)
