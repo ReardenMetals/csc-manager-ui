@@ -12,6 +12,8 @@ Python-3.8.6 download link: https://www.python.org/downloads/release/python-386/
 
 Install Keygen-Core: https://github.com/ReardenMetals/keygen-core
 
+Install Keygen-Plugins: https://github.com/ReardenMetals/keygen-plugins
+
 ## Windows install
     
 ### Install needed dependencies:
@@ -33,6 +35,7 @@ https://github.com/ReardenMetals/csc-manager-ui/releases/
 Finally, csc-manager folder should contains three sub-folders: 
 
 - keygen-core
+- keygen-plugins
 - ui-dependencies-win
 - csc-manager-ui
 
