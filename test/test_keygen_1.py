@@ -1,8 +1,8 @@
-from crypto_coin_factory import CoinFactoryExtended
+from keygen.crypto_coin_factory import CoinFactory
 
 
 def get_coin_address(currency, private_key):
-    service = CoinFactoryExtended().get_coin_service(currency)
+    service = CoinFactory().get_coin_service(currency)
     return service.get_address(private_key)
 
 
