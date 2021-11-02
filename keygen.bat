@@ -1,7 +1,7 @@
 @ECHO OFF
 setlocal
-set KEYGEN_CORE=..\keygen-core-0.1.2\
-set KEYGEN_PLUGINS=..\keygen-plugins-0.1.2\
+set KEYGEN_CORE=..\keygen-core-0.2.0\
+set KEYGEN_PLUGINS=..\keygen-plugins-1.0.0\
 set UI_DEPENDENCIES=..\ui-dependencies-win\
 set PYTHONPATH=%KEYGEN_CORE%;%KEYGEN_PLUGINS%;%UI_DEPENDENCIES%;%PYTHONPATH%
 
