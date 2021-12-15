@@ -35,8 +35,12 @@ class KeyboardScanner:
         try:
             if len(self.__chars_list) == 0:
                 self.logger.info("Scanning new word...")
-            self.logger.debug('alphanumeric key {0} pressed'.format(key.char))
-            self.__chars_list.append(key.char)
+            if key == keyboard.Key.space:
+                self.logger.debug('Special key {0} pressed'.format('{SPACE}'))
+                self.__chars_list.append(' ')
+            else:
+                self.logger.debug('alphanumeric key {0} pressed'.format(key.char))
+                self.__chars_list.append(key.char)
         except AttributeError as e:
             self.logger.debug('special key {0} pressed'.format(
                 key))
