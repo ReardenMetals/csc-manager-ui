@@ -1,11 +1,11 @@
-pygame==2.0.1
+pygame==2.0.3
 asynctkinter==0.1.1
 Pillow==8.1.0
-opencv-python==4.5.1.48
+opencv-python==4.5.4.60
 imutils==0.5.4
 pyzbar==0.1.8
 dependency-injector==4.34.0
-pynput==1.7.3
+pynput==1.7.6
 six==1.15.0
 numpy==1.21.0
 mnemonic==0.19
